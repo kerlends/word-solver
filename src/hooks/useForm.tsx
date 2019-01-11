@@ -7,5 +7,9 @@ export const useForm = () => {
     setValue(e.target.value);
   };
 
-  return { value, handleChange };
+  const handleReset = () => {
+    setValue('');
+  };
+
+  return { value, onChange: handleChange, onReset: handleReset };
 };

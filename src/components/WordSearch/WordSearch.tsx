@@ -3,13 +3,10 @@ import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import { Theme } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
 
 import WordGroup from '../WordGroup';
+import RackInput from '../RackInput';
 
 import { useForm, useQuery } from '../../hooks';
 
@@ -38,7 +35,7 @@ const styles = (theme: Theme) =>
 const useStyles = makeStyles(styles);
 
 const WordSearch = () => {
-  const { value, handleChange } = useForm();
+  const { value, onChange, onReset } = useForm();
   const { loading, loaded, data } = useQuery(value);
   const classes = useStyles();
 
@@ -54,16 +51,8 @@ const WordSearch = () => {
 
   return (
     <div style={{ padding: 8 }}>
-      <Card>
-        <CardContent>
-          <TextField
-            onChange={handleChange}
-            value={value}
-            label="Rack"
-            fullWidth
-          />
-        </CardContent>
-      </Card>
+      <RackInput value={value} onChange={onChange} onClearClick={onReset} />
+
       {loading && (
         <div className={classes.loader}>
           <CircularProgress />
