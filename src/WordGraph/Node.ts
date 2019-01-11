@@ -102,5 +102,5 @@ export class Node {
     return 0;
   }
 
-  toString = () => JSON.stringify(this._states);
+  toString = () => this.id;
 }

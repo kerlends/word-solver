@@ -106,6 +106,8 @@ export class QueryBuilder {
 
     predicates.sort((predicate: any) => predicate.precidence);
 
+    this.predicates.userPredicates = [];
+
     return predicates;
   }
 }

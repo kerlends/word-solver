@@ -1,4 +1,4 @@
-export const isDefined = (value: any) => value !== undefined && value;
+export const isDefined = (value: any) => value !== undefined && value !== null;
 
 export const throwIfUndefined = (
   value: any,

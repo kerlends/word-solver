@@ -3,6 +3,7 @@ import { Predicates } from './Predicates';
 import { throwIfUndefined as throwIfAbsent } from './utils';
 import { editDistance } from './editDistance';
 
+let i = 0;
 export abstract class WordGraph {
   protected _root: Node = new Node();
 
@@ -76,11 +77,11 @@ export abstract class WordGraph {
       let node = this.climbTo(subString);
 
       if (node) {
-        words = words.concat(
-          this.getWord(node, subString, true, (node, char, word) =>
-            regexp.test(word),
-          ),
+        const word = this.getWord(node, subString, true, (node, char, word) =>
+          regexp.test(word),
         );
+
+        words = words.concat(word);
       }
     }
 
@@ -91,15 +92,15 @@ export abstract class WordGraph {
     node: Node,
     prefix: string = '',
     exitIfPredicateFail = false,
-    ...predicates: ((node: Node, char: string, word: string) => boolean)[]
+    ...predicates: ((node: Node, character: string, word: string) => boolean)[]
   ): string[] {
     let words: any = [];
 
-    Object.keys(node.states).forEach((char) => {
-      let subNode = node.states[char];
-      let wordSoFar = prefix + char;
+    Object.keys(node.states).forEach((character) => {
+      let subNode = node.states[character];
+      let wordSoFar = prefix + character;
 
-      if (this.wordShouldBeAdded(subNode, predicates, char, wordSoFar)) {
+      if (this.wordShouldBeAdded(subNode, predicates, character, wordSoFar)) {
         words.push(wordSoFar);
         words = words.concat(
           this.getWord(subNode, wordSoFar, exitIfPredicateFail, ...predicates),
