@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
+import {
+  createStyles,
+  makeStyles,
+  useTheme,
+} from '@material-ui/styles';
 import { Theme } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -39,19 +43,15 @@ const WordSearch = () => {
   const { loading, loaded, data } = useQuery(value);
   const classes = useStyles();
 
-  if (!loaded) {
-    return (
-      <div className={classes.loading}>
-        <div className={classes.progress}>
-          <CircularProgress />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div style={{ padding: 8 }}>
-      <RackInput value={value} onChange={onChange} onClearClick={onReset} />
+      <RackInput
+        value={value}
+        onChange={onChange}
+        onClearClick={onReset}
+        disabled={!loaded}
+        label={loaded ? 'Rack' : 'Initializing solver'}
+      />
 
       {loading && (
         <div className={classes.loader}>
@@ -59,7 +59,11 @@ const WordSearch = () => {
         </div>
       )}
       {data.map(({ numChars, words }) => (
-        <WordGroup key={words.join(',')} numChars={numChars} words={words} />
+        <WordGroup
+          key={words.join(',')}
+          numChars={numChars}
+          words={words}
+        />
       ))}
     </div>
   );
