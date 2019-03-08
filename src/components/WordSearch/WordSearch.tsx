@@ -49,8 +49,7 @@ const WordSearch = () => {
         value={value}
         onChange={onChange}
         onClearClick={onReset}
-        disabled={!loaded}
-        label={loaded ? 'Rack' : 'Initializing solver'}
+        label={'Rack'}
       />
 
       {loading && (

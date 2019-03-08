@@ -74,6 +74,7 @@ const initialState: State = {
 
 export const useQuery = (value: string): Output => {
   const [state, dispatch] = useReducer(solverReducer, initialState);
+  const temp = useRef<any>(null);
 
   const setResult = useCallback(
     (payload: Result) => {
@@ -113,6 +114,18 @@ export const useQuery = (value: string): Output => {
   useEffect(() => {
     if (!value) return;
 
+    let query = value;
+
+    if (!loaded) {
+      temp.current = value;
+      return;
+    }
+
+    if (loaded && temp.current) {
+      query = temp.current;
+      temp.current = null;
+    }
+
     if (debounce.current) {
       clearTimeout(debounce.current);
     }
@@ -125,7 +138,7 @@ export const useQuery = (value: string): Output => {
         localStorage.setItem(storageKey, JSON.stringify(data));
       });
     }, 140);
-  }, [value]);
+  }, [value, loaded]);
 
   return {
     loaded,
