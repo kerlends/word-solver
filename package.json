@@ -10,12 +10,11 @@
     "dotenv": "^6.2.0",
     "dotenv-expand": "^4.2.0",
     "localforage": "^1.7.3",
-    "popmotion": "^8.6.3",
     "ramda": "^0.26.1",
-    "react": "^16.8.3",
+    "react": "^16.8.4",
     "react-app-rewired": "^2.1.0",
-    "react-dom": "^16.8.3",
-    "react-scripts": "^2.1.5",
+    "react-dom": "^16.8.4",
+    "react-scripts": "^2.1.8",
     "typescript": "^3.3.3333",
     "workerize-loader": "^1.0.4"
   },
@@ -31,10 +30,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@types/jest": "^24.0.9",
-    "@types/node": "^11.10.4",
-    "@types/ramda": "^0.25.51",
-    "@types/react": "^16.8.6",
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.11.0",
+    "@types/ramda": "^0.26.1",
+    "@types/react": "^16.8.7",
     "@types/react-dom": "^16.8.2",
     "prettier": "^1.16.4"
   },

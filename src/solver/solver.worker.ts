@@ -41,7 +41,7 @@ const isValid = curry((rack: string, word: string) => {
 });
 
 const filterValid = curry((rack: string, words: string[]) =>
-  filter(isValid(rack), words),
+  filter(isValid(rack) as any, words),
 );
 
 const clean = pipe(
