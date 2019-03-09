@@ -11,8 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-import { getRandomColor } from './utils';
-
 const styles = (theme: Theme) =>
   createStyles({
     root: {
@@ -20,13 +18,9 @@ const styles = (theme: Theme) =>
       margin: `${theme.spacing.unit}px 0`,
       overflow: 'hidden',
     },
-    gridItemCount: (props: Props) => {
-      const backgroundColor = getRandomColor(props.numChars);
-
-      return {
-        backgroundColor,
-        color: theme.palette.getContrastText(backgroundColor),
-      };
+    gridItemCount: {
+      backgroundColor: '#000',
+      color: theme.palette.getContrastText('#000000'),
     },
     typographyCount: {
       padding: theme.spacing.unit,

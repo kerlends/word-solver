@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-  createStyles,
-  makeStyles,
-  useTheme,
-} from '@material-ui/styles';
+import { createStyles, makeStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -16,6 +12,9 @@ import { useForm, useQuery } from '../../hooks';
 
 const styles = (theme: Theme) =>
   createStyles({
+    container: {
+      padding: theme.spacing.unit,
+    },
     loading: {
       display: 'flex',
       justifyContent: 'center',
@@ -40,11 +39,11 @@ const useStyles = makeStyles(styles);
 
 const WordSearch = () => {
   const { value, onChange, onReset } = useForm();
-  const { loading, loaded, data } = useQuery(value);
+  const { loading, data } = useQuery(value);
   const classes = useStyles();
 
   return (
-    <div style={{ padding: 8 }}>
+    <div className={classes.container}>
       <RackInput
         value={value}
         onChange={onChange}
@@ -58,11 +57,7 @@ const WordSearch = () => {
         </div>
       )}
       {data.map(({ numChars, words }) => (
-        <WordGroup
-          key={words.join(',')}
-          numChars={numChars}
-          words={words}
-        />
+        <WordGroup key={numChars} numChars={numChars} words={words} />
       ))}
     </div>
   );
