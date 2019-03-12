@@ -72,7 +72,7 @@ const initialState: State = {
   groups: [],
 };
 
-export const useQuery = (value: string): Output => {
+export default function useQuery(value: string): Output {
   const [state, dispatch] = useReducer(solverReducer, initialState);
   const temp = useRef<any>(null);
 
@@ -145,4 +145,4 @@ export const useQuery = (value: string): Output => {
     loading: state.status === 'loading',
     data: state.groups,
   };
-};
+}

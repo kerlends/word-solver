@@ -1,18 +1,24 @@
-import url from './TWL06.txt';
+export const isFunction = (obj: any): obj is Function =>
+  typeof obj === 'function';
 
-let loaded = false;
-let sortedWords: string[] = [];
+export const isObject = (obj: any): boolean =>
+  obj !== null && typeof obj === 'object';
 
-export const loadWords = async () => {
-  if (loaded) return sortedWords;
+export const isInteger = (obj: any): boolean =>
+  String(Math.floor(Number(obj))) === obj;
 
-  const res = await fetch(url);
-  const text = await res.text();
-  const words = text.split('\n');
-  words.sort();
+export const isString = (obj: any): obj is string =>
+  Object.prototype.toString.call(obj) === '[object String]';
 
-  loaded = true;
-  sortedWords = words;
+export const isNaN = (obj: any): boolean => obj !== obj;
 
-  return sortedWords;
+export const isPromise = (value: any): value is PromiseLike<any> =>
+  isObject(value) && isFunction(value.then);
+
+export const parse = <T extends any = string>(value: string): T => {
+  try {
+    return JSON.parse(value);
+  } catch (err) {
+    return (value as any) as T;
+  }
 };

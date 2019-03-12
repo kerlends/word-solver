@@ -29,3 +29,7 @@ declare module 'workerize-loader!*' {
   const value: any;
   export default value;
 }
+
+declare type ReturnType<T> = T extends (...args: any[]) => infer R
+  ? R
+  : any;

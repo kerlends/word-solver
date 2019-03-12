@@ -38,7 +38,7 @@ const styles = (theme: Theme) =>
 const useStyles = makeStyles(styles);
 
 const WordSearch = () => {
-  const { value, onChange, onReset } = useForm();
+  const { value, onChange, onReset } = useForm('wordSearch');
   const { loading, data } = useQuery(value);
   const classes = useStyles();
 
