@@ -1,8 +1,6 @@
 import { useCallback, useState } from 'react';
 
 type Toggle = () => void;
-type On = () => void;
-type Off = () => void;
 
 export default function useBoolean(
   initial: boolean = false,
