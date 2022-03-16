@@ -1,75 +1,67 @@
 import * as React from 'react';
+
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
+import ClearIcon from '@mui/icons-material/Clear';
 import {
-  createStyles,
-  makeStyles,
-  useTheme,
-} from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField, {
-  TextFieldProps,
-} from '@material-ui/core/TextField';
-import ClearIcon from '@material-ui/icons/Clear';
-
-const styles = (theme: Theme) =>
-  createStyles({
-    wrapper: {
-      display: 'flex',
-      margin: `${theme.spacing.unit * 2}px 0`,
-    },
-    textField: {
-      flex: 1,
-    },
-  });
-
-const useStyles = makeStyles(styles);
+	Divider,
+	FormControlLabel,
+	LinearProgress,
+	Switch,
+} from '@mui/material';
 
 interface Props {
-  onClearClick: () => void;
+	loading: boolean;
+	onClearClick: () => void;
 }
 
-const RackInput = ({
-  value,
-  onChange,
-  onClearClick,
-  ...props
+export const RackInput = ({
+	value,
+	loading,
+	onChange,
+	onClearClick,
+	...props
 }: Props & TextFieldProps) => {
-  const classes = useStyles();
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const handleClear = React.useCallback(() => {
-    onClearClick();
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
+	const inputRef = React.useRef<HTMLInputElement>(null);
+	const handleClear = React.useCallback(() => {
+		onClearClick();
+		if (inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, []);
 
-  return (
-    <div className={classes.wrapper}>
-      <TextField
-        {...props}
-        className={classes.textField}
-        onChange={onChange}
-        value={value}
-        inputRef={inputRef}
-        variant="outlined"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Clear rack input"
-                disabled={!value}
-                onClick={handleClear}
-              >
-                <ClearIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-    </div>
-  );
+	return (
+		<Box sx={{ display: 'flex', position: 'relative', my: 2 }}>
+			<TextField
+				{...props}
+				sx={{ flex: 1 }}
+				onChange={onChange}
+				value={value}
+				inputRef={inputRef}
+				variant="filled"
+				InputProps={{
+					endAdornment: (
+						<InputAdornment position="end">
+							<IconButton
+								aria-label="Clear rack input"
+								disabled={!value}
+								onClick={handleClear}
+							>
+								<ClearIcon />
+							</IconButton>
+						</InputAdornment>
+					),
+				}}
+			/>
+			{loading && (
+				<Box
+					sx={{ width: '100%', position: 'absolute', top: '100%' }}
+				>
+					<LinearProgress />
+				</Box>
+			)}
+		</Box>
+	);
 };
-
-export default RackInput;

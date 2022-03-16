@@ -23,7 +23,11 @@ export abstract class WordGraph {
 
   startsWith(
     prefix: string,
-    ...predicates: ((node: Node, char: string, word: string) => boolean)[]
+    ...predicates: ((
+      node: Node,
+      char: string,
+      word: string,
+    ) => boolean)[]
   ): string[] {
     let node = this.climbTo(prefix);
 
@@ -44,11 +48,18 @@ export abstract class WordGraph {
       words.push(prefix);
     }
 
-    return words.concat(this.getWord(node, prefix, false, ...predicates));
+    return words.concat(
+      this.getWord(node, prefix, false, ...predicates),
+    );
   }
 
   endsWith(suffix: string): string[] {
-    return this.getWord(this.root, '', false, Predicates.endsWith(suffix));
+    return this.getWord(
+      this.root,
+      '',
+      false,
+      Predicates.endsWith(suffix),
+    );
   }
 
   containsAny(strings: string[]): string[] {
@@ -77,8 +88,11 @@ export abstract class WordGraph {
       let node = this.climbTo(subString);
 
       if (node) {
-        const word = this.getWord(node, subString, true, (node, char, word) =>
-          regexp.test(word),
+        const word = this.getWord(
+          node,
+          subString,
+          true,
+          (node, char, word) => regexp.test(word),
         );
 
         words = words.concat(word);
@@ -92,7 +106,11 @@ export abstract class WordGraph {
     node: Node,
     prefix: string = '',
     exitIfPredicateFail = false,
-    ...predicates: ((node: Node, character: string, word: string) => boolean)[]
+    ...predicates: ((
+      node: Node,
+      character: string,
+      word: string,
+    ) => boolean)[]
   ): string[] {
     let words: any = [];
 
@@ -100,14 +118,34 @@ export abstract class WordGraph {
       let subNode = node.states[character];
       let wordSoFar = prefix + character;
 
-      if (this.wordShouldBeAdded(subNode, predicates, character, wordSoFar)) {
+      if (
+        this.wordShouldBeAdded(
+          subNode,
+          predicates,
+          character,
+          wordSoFar,
+        )
+      ) {
         words.push(wordSoFar);
         words = words.concat(
-          this.getWord(subNode, wordSoFar, exitIfPredicateFail, ...predicates),
+          this.getWord(
+            subNode,
+            wordSoFar,
+            exitIfPredicateFail,
+            ...predicates,
+          ),
         );
-      } else if (!subNode.final || (subNode.final && !exitIfPredicateFail)) {
+      } else if (
+        !subNode.final ||
+        (subNode.final && !exitIfPredicateFail)
+      ) {
         words = words.concat(
-          this.getWord(subNode, wordSoFar, exitIfPredicateFail, ...predicates),
+          this.getWord(
+            subNode,
+            wordSoFar,
+            exitIfPredicateFail,
+            ...predicates,
+          ),
         );
       }
     });
@@ -133,9 +171,7 @@ export abstract class WordGraph {
     let node = this.root;
 
     for (let char of prefix) {
-      console.log(node);
       node = node.nodeOf(char);
-      console.log(node);
       if (!node) {
         return null;
       }
@@ -146,7 +182,11 @@ export abstract class WordGraph {
 
   private wordShouldBeAdded(
     subNode: Node,
-    predicates: ((node: Node, char: string, word: string) => boolean)[],
+    predicates: ((
+      node: Node,
+      char: string,
+      word: string,
+    ) => boolean)[],
     char: string,
     word: string,
   ) {

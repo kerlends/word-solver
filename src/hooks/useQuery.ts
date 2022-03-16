@@ -5,10 +5,11 @@ import {
   useRef,
   useReducer,
 } from 'react';
-import { createWorker } from './types';
-import * as SolverWorker from 'workerize-loader!../solver/solver.worker';
 
-const worker = createWorker(SolverWorker) as any;
+import { useStore } from '../store';
+
+import { solver } from '../solver/solver';
+import type { SolverOptions } from '../solver/worker';
 
 interface WordGroup {
   numChars: number;
@@ -16,12 +17,6 @@ interface WordGroup {
 }
 
 type Result = WordGroup[];
-
-interface Output {
-  loading: boolean;
-  loaded: boolean;
-  data: Result;
-}
 
 const storageKey = '@solver.persist';
 
@@ -40,6 +35,7 @@ const solverReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'SET_RESULTS': {
       return {
+        ...state,
         status: 'idle',
         groups: action.payload,
       };
@@ -72,7 +68,7 @@ const initialState: State = {
   groups: [],
 };
 
-export default function useQuery(value: string): Output {
+export function useQuery(value: string) {
   const [state, dispatch] = useReducer(solverReducer, initialState);
   const temp = useRef<any>(null);
 
@@ -106,15 +102,42 @@ export default function useQuery(value: string): Output {
   }, []);
 
   useEffect(() => {
-    worker.load().then(() => {
+    solver.load().then(() => {
       setLoaded(true);
     });
   }, []);
 
+  const {
+    allowMultiples,
+    contains,
+    exclude,
+    minLength,
+    maxLength,
+    startsWith,
+    endsWith,
+  } = useStore(({ state }) => ({
+    allowMultiples: state.allowMultiple,
+    contains: state.contains || undefined,
+    exclude: state.exclude || undefined,
+    minLength: state.minLength || undefined,
+    maxLength: state.maxLength || undefined,
+    startsWith: state.startsWith,
+    endsWith: state.endsWith,
+  }));
+
   useEffect(() => {
     if (!value) return;
 
-    let query = value;
+    let query: SolverOptions = {
+      input: value,
+      allowMultiples,
+      contains,
+      exclude,
+      minLength,
+      maxLength,
+      startsWith,
+      endsWith,
+    };
 
     if (!loaded) {
       temp.current = value;
@@ -122,7 +145,7 @@ export default function useQuery(value: string): Output {
     }
 
     if (loaded && temp.current) {
-      query = temp.current;
+      query.input = temp.current;
       temp.current = null;
     }
 
@@ -133,16 +156,26 @@ export default function useQuery(value: string): Output {
     setLoading();
 
     debounce.current = setTimeout(() => {
-      worker.solve(value).then((data: any) => {
-        setResult(data);
-        localStorage.setItem(storageKey, JSON.stringify(data));
+      solver.solve(query).then((data) => {
+        setResult(data.result);
+        localStorage.setItem(storageKey, JSON.stringify(data.result));
       });
     }, 140);
-  }, [value, loaded]);
+  }, [
+    value,
+    loaded,
+    allowMultiples,
+    contains,
+    exclude,
+    minLength,
+    maxLength,
+    startsWith,
+    endsWith,
+  ]);
 
   return {
     loaded,
     loading: state.status === 'loading',
     data: state.groups,
-  };
+  } as const;
 }

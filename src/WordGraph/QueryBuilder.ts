@@ -16,35 +16,43 @@ export class QueryBuilder {
   }
 
   startsWith(...patterns: string[]): QueryBuilder {
-    this.startsWithPatterns = this.startsWithPatterns.concat(patterns);
+    this.startsWithPatterns =
+      this.startsWithPatterns.concat(patterns);
 
     return this;
   }
 
   endsWith(...patterns: string[]): QueryBuilder {
     this.endsWithPatterns = this.endsWithPatterns.concat(patterns);
-    this.predicates.endsWithPatterns = Predicates.endsWith(...patterns);
+    this.predicates.endsWithPatterns = Predicates.endsWith(
+      ...patterns,
+    );
 
     return this;
   }
 
   containsAll(...patterns: string[]): QueryBuilder {
-    this.containsAllPatterns = this.containsAllPatterns.concat(patterns);
+    this.containsAllPatterns =
+      this.containsAllPatterns.concat(patterns);
     this.predicates.containsAll = Predicates.containsAll(...patterns);
 
     return this;
   }
 
   containsAny(...patterns: string[]): QueryBuilder {
-    this.containsAnyPatterns = this.containsAnyPatterns.concat(patterns);
+    this.containsAnyPatterns =
+      this.containsAnyPatterns.concat(patterns);
     this.predicates.containsAny = Predicates.containsAny(...patterns);
 
     return this;
   }
 
   containsOnly(...patterns: string[]): QueryBuilder {
-    this.containsOnlyPatterns = this.containsOnlyPatterns.concat(patterns);
-    this.predicates.containsOnly = Predicates.containsOnly(...patterns);
+    this.containsOnlyPatterns =
+      this.containsOnlyPatterns.concat(patterns);
+    this.predicates.containsOnly = Predicates.containsOnly(
+      ...patterns,
+    );
 
     return this;
   }
@@ -57,7 +65,7 @@ export class QueryBuilder {
   }
 
   maxLength(length: number): QueryBuilder {
-    this.predicates.minLength = Predicates.maxLength(length);
+    this.predicates.maxLength = Predicates.maxLength(length);
 
     return this;
   }

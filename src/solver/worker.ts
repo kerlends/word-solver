@@ -7,7 +7,6 @@ import {
   length,
   pipe,
   prop,
-  memoize,
   reverse,
   sortBy,
   split,
@@ -27,6 +26,17 @@ const groupByLength = (
   [key: number]: string[];
 } => groupBy(length as any, w as any) as any;
 
+export interface SolverOptions {
+  input: string;
+  allowMultiples: boolean;
+  minLength?: number;
+  maxLength?: number;
+  contains?: string[];
+  exclude?: string[];
+  startsWith?: string;
+  endsWith?: string;
+}
+
 const isValid = curry((rack: string, word: string) => {
   const rackCount = countChars(rack);
   const wordCount = countChars(word);
@@ -44,15 +54,12 @@ const filterValid = curry((rack: string, words: string[]) =>
   filter(isValid(rack) as any, words),
 );
 
-const clean = pipe(
-  sortBy(prop('numChars')) as any,
-  reverse,
-) as any;
+const clean = pipe(sortBy(prop('numChars')) as any, reverse) as any;
 
 const wordGraph = new MinimalWordGraph();
 let loaded = false;
 
-export const load = async () => {
+const load = async () => {
   if (loaded) return;
 
   let words = await store.getItem<string[]>('words');
@@ -73,9 +80,16 @@ export const load = async () => {
   loaded = true;
 };
 
-export const solve = async (
-  value: string,
-): Promise<{
+const solve = async ({
+  input: value,
+  allowMultiples,
+  maxLength,
+  minLength,
+  contains,
+  exclude,
+  startsWith,
+  endsWith,
+}: SolverOptions): Promise<{
   [key: number]: string[];
 }> => {
   await load();
@@ -83,13 +97,33 @@ export const solve = async (
   const builder = new QueryBuilder(wordGraph);
   const rack = value.toLowerCase();
   const chars = rack.split('');
-  const words: string[] = builder
-    .containsOnly(...chars)
-    .maxLength(chars.length)
-    .minLength(3)
-    .build()();
 
-  const data = groupByLength(filterValid(rack, words));
+  let factory = builder
+    .containsOnly(...chars)
+    .minLength(minLength ? minLength : 3)
+    .maxLength(maxLength ? maxLength : chars.length);
+
+  if (contains && contains.length > 0) {
+    factory = factory.containsAll(...contains);
+  }
+
+  if (exclude && exclude.length > 0) {
+    factory = factory.exclude(...exclude);
+  }
+
+  if (startsWith) {
+    factory = factory.startsWith(startsWith);
+  }
+
+  if (endsWith) {
+    factory = factory.endsWith(endsWith);
+  }
+
+  const words: string[] = factory.build()();
+
+  const data = groupByLength(
+    allowMultiples ? words : filterValid(rack, words),
+  );
 
   const dataArray = Object.keys(data).map((key) => {
     const numChars = parseInt(key, 10);
@@ -100,4 +134,14 @@ export const solve = async (
   });
 
   return clean(dataArray);
+};
+
+self.onmessage = async ({ data: { load: doLoad, input } }) => {
+  if (doLoad) {
+    await load();
+    self.postMessage({ loaded: true });
+  } else if (input) {
+    const result = await solve(input);
+    self.postMessage({ result });
+  }
 };
