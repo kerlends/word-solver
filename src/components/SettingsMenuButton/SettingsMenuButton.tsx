@@ -40,7 +40,7 @@ function ContainsCharsMenuItem() {
     (event: React.ChangeEvent<HTMLInputElement>) =>
       dispatch({
         type: 'SET CONTAINS',
-        payload: event.target.value.split(''),
+        payload: event.target.value.toLowerCase().split(''),
       }),
     [dispatch],
   );
@@ -64,7 +64,7 @@ function ExcludeCharsMenuItem() {
     (event: React.ChangeEvent<HTMLInputElement>) =>
       dispatch({
         type: 'SET EXCLUDES',
-        payload: event.target.value.split(''),
+        payload: event.target.value.toLowerCase().split(''),
       }),
     [dispatch],
   );
@@ -88,7 +88,7 @@ function StartsWithMenuItem() {
     (event: React.ChangeEvent<HTMLInputElement>) =>
       dispatch({
         type: 'SET STARTS WITH',
-        payload: event.target.value,
+        payload: event.target.value.toLowerCase(),
       }),
     [dispatch],
   );
@@ -112,7 +112,7 @@ function EndsWithMenuItem() {
     (event: React.ChangeEvent<HTMLInputElement>) =>
       dispatch({
         type: 'SET ENDS WITH',
-        payload: event.target.value,
+        payload: event.target.value.toLowerCase(),
       }),
     [dispatch],
   );

@@ -29,16 +29,17 @@ const WordGroup = (props: Props) => {
             {numChars}
           </Typography>
         </Grid>
-        <Grid container item spacing={1} sx={{ my: 1 }}>
+        <Grid container item spacing={1} sx={{ my: 1, pb: 1 }}>
           {words.map((word) => (
             <Grid key={word} item>
               <Chip
-                label={word}
-                color="primary"
+                label={word.toUpperCase()}
+                variant="filled"
                 sx={{
-                  bgcolor: 'black',
-                  color: 'white',
-                  fontWeight: 'typography.button.fontWeight',
+                  //bgcolor: 'black',
+                  //color: 'white',
+                  fontWeight: 'bold',
+                  letterSpacing: 1.2,
                 }}
               />
             </Grid>
