@@ -11,6 +11,7 @@
     "dotenv": "^6.2.0",
     "dotenv-expand": "^4.2.0",
     "localforage": "^1.7.3",
+    "lodash.debounce": "^4.0.8",
     "ramda": "^0.26.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

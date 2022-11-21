@@ -49,13 +49,13 @@ const settingsReducer: React.Reducer<
 };
 
 const initialSettingsState: SettingsState = {
-  allowMultiple: false,
+  allowMultiple: true,
   contains: [],
   exclude: [],
   startsWith: '',
   endsWith: '',
-  minLength: 0,
-  maxLength: 0,
+  minLength: 5,
+  maxLength: 5,
 };
 
 export const useStore = create<{

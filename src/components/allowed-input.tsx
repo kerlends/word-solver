@@ -28,7 +28,7 @@ export const RackInput = ({
   }, []);
 
   return (
-    <Box sx={{ display: 'flex', position: 'relative' }}>
+    <Box sx={{ display: 'flex', position: 'relative', my: 2 }}>
       <TextField
         {...props}
         sx={{ flex: 1 }}
