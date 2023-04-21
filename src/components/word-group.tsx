@@ -1,8 +1,5 @@
 import React from 'react';
-import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import { Chip, Grid, Paper, Typography } from '@mui/material';
 
 interface WordGroupProps {
   numChars: number;

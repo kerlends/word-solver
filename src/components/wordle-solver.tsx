@@ -1,5 +1,4 @@
-import Box from '@mui/material/Box';
-
+import { Box } from '@mui/material';
 import { useSolver } from '../hooks/use-solver';
 import { RackInput } from './rack-input';
 import { WordGroup } from './word-group';

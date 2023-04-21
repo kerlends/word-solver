@@ -1,8 +1,5 @@
 import { useCallback } from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import Box from '@mui/material/Box';
-
+import { Box, FormControlLabel, Switch } from '@mui/material';
 import { useDispatch, useStore } from '../../services/store';
 
 export function AllowMultipleMenuItem() {

@@ -1,10 +1,8 @@
 import React from 'react';
 import { useCallback } from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import Box from '@mui/material/Box';
 
 import { useThemeContext } from '../../hooks/use-theme-context';
+import { Box, FormControlLabel, Switch } from '@mui/material';
 
 interface DarkModeMenuItemProps {
   className?: string;

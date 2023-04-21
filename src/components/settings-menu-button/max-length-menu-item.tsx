@@ -1,7 +1,6 @@
 import React from 'react';
 import { useCallback } from 'react';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
+import { Box, TextField } from '@mui/material';
 
 import { useDispatch, useStore } from '../../services/store';
 

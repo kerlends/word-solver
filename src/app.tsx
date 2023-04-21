@@ -1,6 +1,4 @@
-import CssBaseline from '@mui/material/CssBaseline';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
-
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { WordleSolver } from './components/wordle-solver';
 import { useThemeContext } from './hooks/use-theme-context';
 

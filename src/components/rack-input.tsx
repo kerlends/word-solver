@@ -1,12 +1,13 @@
 import React from 'react';
-
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import type { TextFieldProps } from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
-import LinearProgress from '@mui/material/LinearProgress';
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  LinearProgress,
+  TextField,
+} from '@mui/material';
+import type { TextFieldProps } from '@mui/material/TextField';
 
 type RackInputProps = TextFieldProps & {
   loading: boolean;

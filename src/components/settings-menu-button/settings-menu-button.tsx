@@ -1,9 +1,7 @@
 import React from 'react';
 import { useCallback, useState } from 'react';
-import Popover from '@mui/material/Popover';
-import IconButton from '@mui/material/IconButton';
+
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Box from '@mui/material/Box';
 
 import { ContainsCharsMenuItem } from './contains-chars-menu-item';
 import { ExcludeCharsMenuItem } from './exclude-chars-menu-item';
@@ -13,6 +11,7 @@ import { MaxLengthMenuItem } from './max-length-menu-item';
 import { MinLengthMenuItem } from './min-length-menu-item';
 import { AllowMultipleMenuItem } from './allow-multiple-menu-item';
 import { DarkModeMenuItem } from './dark-mode-menu-item';
+import { Box, IconButton, Popover } from '@mui/material';
 
 export function SettingsMenuButton() {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(
