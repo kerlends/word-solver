@@ -8,18 +8,18 @@ import type { TextFieldProps } from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
 import LinearProgress from '@mui/material/LinearProgress';
 
-type AllowedInputProps = TextFieldProps & {
+type RackInputProps = TextFieldProps & {
   loading: boolean;
   onClearClick: () => void;
 };
 
-export function AllowedInput({
+export function RackInput({
   value,
   loading,
   onChange,
   onClearClick,
   ...props
-}: AllowedInputProps) {
+}: RackInputProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const handleClear = React.useCallback(() => {
     onClearClick();
@@ -29,7 +29,7 @@ export function AllowedInput({
   }, []);
 
   return (
-    <Box sx={{ display: 'flex', position: 'relative', my: 2 }}>
+    <Box sx={{ display: 'flex', position: 'relative' }}>
       <TextField
         {...props}
         sx={{ flex: 1 }}

@@ -11,7 +11,11 @@ import {
   sortBy,
   split,
 } from 'ramda';
-import { MinimalWordGraph, QueryBuilder } from '../WordGraph';
+
+import {
+  MinimalWordGraph,
+  QueryBuilder,
+} from '../services/word-graph';
 
 import url from './TWL06.txt';
 
@@ -20,6 +24,7 @@ const store = localForage.createInstance({
 });
 
 const countChars = (w: string) => countBy(split('') as any, w as any);
+
 const groupByLength = (
   w: string[],
 ): {
