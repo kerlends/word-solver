@@ -4,6 +4,7 @@ import {
   useState,
   useRef,
   useReducer,
+  useTransition,
 } from 'react';
 
 import { useStore } from '../services/store';
@@ -76,24 +77,25 @@ export function useSolver(
 ) {
   const [state, dispatch] = useReducer(solverReducer, initialState);
   const temp = useRef<any>(null);
+  const [pending, startTransition] = useTransition();
 
   const setResult = useCallback(
     (payload: Result) => {
-      dispatch({
-        type: 'SET_RESULTS',
-        payload,
+      startTransition(() => {
+        dispatch({
+          type: 'SET_RESULTS',
+          payload,
+        });
       });
     },
     [dispatch],
   );
 
-  const setLoading = useCallback(
-    () =>
-      dispatch({
-        type: 'QUERY',
-      }),
-    [dispatch],
-  );
+  const setLoading = useCallback(() => {
+    dispatch({
+      type: 'QUERY',
+    });
+  }, [dispatch]);
 
   const [loaded, setLoaded] = useState(false);
 
@@ -151,7 +153,9 @@ export function useSolver(
 
     debounce.current = setTimeout(() => {
       solver.solve(query).then((data) => {
-        setResult(data.result);
+        startTransition(() => {
+          setResult(data.result);
+        });
         localStorage.setItem(storageKey, JSON.stringify(data.result));
       });
     }, 140);

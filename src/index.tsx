@@ -1,10 +1,13 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ThemeContextProvider } from './theme/theme-context-provider';
 import { App } from './app';
 
-ReactDOM.render(
+const root = createRoot(
+  document.getElementById('root') as HTMLElement,
+);
+
+root.render(
   <ThemeContextProvider>
     <App />
   </ThemeContextProvider>,
-  document.getElementById('root'),
 );
